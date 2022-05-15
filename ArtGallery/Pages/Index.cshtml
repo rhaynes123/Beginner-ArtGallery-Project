@@ -4,7 +4,46 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<form method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="text-center">
+        <h1 class="display-4">Welcome To Your Custom Art Gallery</h1>
+    </div>
+    <div class="col-md-6">
+
+        <div class="form-group">
+            <label asp-for="ImageToUpload.FormFile" class="control-label"></label>
+        </div>
+        <div class="form-group">
+            <input asp-for="ImageToUpload.FormFile" id="customFile" type="file" required>
+            <button class="btn btn-success">Add New Image File</button>
+            <span asp-validation-for="ImageToUpload.FormFile" class="text-danger"></span>
+        </div>
+    </div>
+</form>
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>File Name</th>
+                <th>Image</th>
+                <th>Date Added</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model.Gallery is not null && Model.Gallery.Any())
+                {
+                    foreach (var item in Model.Gallery)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.FilePath</td>
+                            <td><img src="~/Images/@item.FilePath" class="rounded-circle" height="100" width="100"/></td>
+                            <td>@item.CreatedDate</td>
+                        </tr>
+                    }
+                }
+        </tbody>
+    </table>
 </div>
