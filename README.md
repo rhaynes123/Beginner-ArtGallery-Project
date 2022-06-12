@@ -1,23 +1,34 @@
 # Beginner-ArtGallery-Project
-Pre-Requesites
+### Pre-Requesites
 To follow along with this project you will need the following:
-An IDE or Editor that supports C# 9 > and .NET 6 >. I used Visual Studio For Mac 2022
-SQLite3. While not necessary an SQL editor that can work with SQLite is very helpful. I used Table Plus which has a free version.
-Goal:
+An IDE or Editor that supports C# 9 > and .NET 6 >. I used [Visual Studio For Mac 2022](https://visualstudio.microsoft.com/vs/mac/)
+[SQLite3](https://www.sqlitetutorial.net/download-install-sqlite/). While not necessary an SQL editor that can work with SQLite is very helpful. I used [Table Plus](https://tableplus.com/download) which has a free version.
+
+### Goal:
 The goal of this is to walk through a simple project to help learn beginner developers how to use C# to build a very simple web application. This project attempts to combine many of the basica language concepts as well as some more medium level topics to help paint a full picturing of how to build an usable system with these tools and techniques. The project we are building will be a photo gallery which will demostrate how to use C# to upload a file and read data from a relational database, in this case SQLite. 
-If you are new to C# and Visual Studio here are some other Links that may be worth while to check either before or after you complete this guide depending on your level
-here's a [link](https://docs.microsoft.com/en-us/visualstudio/mac/tutorial-aspnet-core-vsmac-getting-started?view=vsmac-2019)
-###Part 1:
+If you are new to C# and Visual Studio here are some other Links that may be worth while to check either before or after you complete this guide depending on your level.
+* [C# Basic](https://dotnet.microsoft.com/en-us/learn/csharp)
+* [Using VS For Mac](https://docs.microsoft.com/en-us/visualstudio/mac/tutorial-aspnet-core-vsmac-getting-started?view=vsmac-2022)
+* [SQLite Basic](https://www.sqlitetutorial.net/sqlite-commands/)
+### Part 1:
 We are first going to start by using Visual Studio to create a new project, be sure to pick the Web Application template to remain as close as possible with this project guide. 
+
 <img src="ArtGallery/Screenshots/ArtGalleryProjectName.png"> 
 <img src="ArtGallery/Screenshots/NewProject.png"> 
 
-Ensure that you select the "Individual Authentication (in-app) of the Authentication section.<img src="ArtGallery/Screenshots/Net6withAuth.png">. Next once the project has been successfully created lets use Visual Studio to create a few new folders. The first new folder will be named Models. Model is a term used in software engineering to represent a class who's purpose is to act as a well "Model" of some real world data. You will find many more well defined articles around what should and shouldn't be a model but since this is a beginner level that will be our simple definition for now.
+Ensure that you select the "Individual Authentication (in-app) of the Authentication section.<img src="ArtGallery/Screenshots/Net6withAuth.png">. 
+
+Next once the project has been successfully created lets use Visual Studio to create a few new folders. The first new folder will be named Models. Model is a term used in software engineering to represent a class who's purpose is to act as a well "Model" of some real world data. You will find many more well defined articles around what should and shouldn't be a model but since this is a beginner level that will be our simple definition for now.
+
+
 <img src="ArtGallery/Screenshots/AddNewFolder.png">.
 <img src="ArtGallery/Screenshots/ModelsFolder.png">.
+
 Now that our Models folder has been created we are going to create our first class.
+
 <img src="ArtGallery/Screenshots/AddNewClass.png">.
 <img src="ArtGallery/Screenshots/EmptyImageClass.png">.
+
 Go a head and modify the class that has been created to look like the code below 
 
  ```C#
@@ -45,7 +56,7 @@ namespace ArtGallery.Models
   ```
 Since we are working with images and databases we need to keep track of a few data points. First it is always a good id to have a unique number based id on a database record that a user may not even work with. Next we need a unique none number based id. This is referred to as a guide or generated unique id. The database will be designed to handle the value for the Id field but our code will auto build the guid. The FilePath property will keep track of where the file will be copied to and the FormFile will keep track of the actual information about the File itself. Pay close attention to the Keyword above the IFormFile property called [NotMapped] as that will have an important meaning in the next part.
 
-###Part 2: Update Our Database
+### Part 2: Update Our Database
 For this project most of our database work will be handled by code provided by the C# library called Entity Framework Core or Ef Core for short. Ef Core is a library type reffered to as a ORM short for Object Relational Mapper. In simple terms it takes data and makes classes from that data and vice versa. The code that will control these instructions is currently housed in a class in our Data folder called ApplicationDbContext. The template we picked created this for us but note if you as a developer have a need you could defiently create a DbContext yourself. 
 ```C#
 using ArtGallery.Models;
@@ -78,24 +89,30 @@ This file is doing a lot so I'm going to provide a summary. In short this code i
 
 Now to trigger our DbContext to work we need to open a terminal. This can be done directly from Visual studio as seen below. 
 <img src="ArtGallery/Screenshots/OpenTerminalForProject.png">.
+
 In the terminal type the following commands
 
 ```
 dotnet ef migrations add AddImageMigration
 ```
 If this is successful your output should look like the below screenshot.
+
 <img src="ArtGallery/Screenshots/AddMigration.png">.
+
 What we've done is we have created database migrations. Migrations is just a term used by libraries in places of the phrase "database changes". Our file command for this section will be the one seen below.
 ```
 dotnet ef database update
 ```
 This command does the actual work of updating our database with the migrations.
 
-###Part 3: Update Our Index Page
+### Part 3: Update Our Index Page
 Now that our database has been created lets next add our Images folder and modfy our Index Files. You can find both the Index.cshtml and the Index.cshtml.cs file in the Pages folder. The Index.cshtml.cs file will be hidden just below the Index.cshtml file and can be revealed by pressing the > next to the Index.cshtml file. 
 To create our images folder we really only need to copy some of the steps from Part I but the images folder now just needs to be a sub folder of wwroot folder so our Pages can access that folder.
+
 <img src="ArtGallery/Screenshots/AddNewFolder.png">.
 <img src="ArtGallery/Screenshots/ImagesFolder.png">.
+
+
 Now that those have been created successfully we can modify our Index files to look like the code below. 
 Index.cshtml.cs
  ```C#
